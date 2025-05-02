@@ -1,0 +1,137 @@
+import React, { useState } from 'react';
+import {
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Typography,
+  Paper,
+} from '@mui/material';
+import Demographics from './sections/Demographics';
+import SystemUsabilityScale from './sections/SystemUsabilityScale';
+import NasaTLX from './sections/NasaTLX';
+import DepthGuide from './sections/DepthGuide';
+import { submitToGoogleSheets } from '../services/googleSheets';
+
+const steps = ['Demographics', 'System Usability Scale', 'NASA-TLX', 'Depth Guide'];
+
+const Survey: React.FC = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const [formData, setFormData] = useState({
+    demographics: {
+      specialty: '',
+      otherSpecialty: '',
+      trainingStatus: '',
+      experience: '',
+      used3DSlicer: '',
+      slicerFamiliarity: 0,
+    },
+    sus: {},
+    nasaTlx: {
+      withDepthGuide: Array(6).fill(0),
+      withoutDepthGuide: Array(6).fill(0),
+    },
+    depthGuide: {
+      usefulness: 0,
+      helpWithBLines: '',
+      moreVariationWithout: '',
+      shouldBeIncluded: '',
+      additionalFeedback: '',
+    },
+  });
+
+  const handleNext = () => {
+    setActiveStep((prevStep) => prevStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevStep) => prevStep - 1);
+  };
+
+  const handleDataChange = (section: string, data: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [section]: data,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await submitToGoogleSheets({
+        demographics: formData.demographics,
+        sus: formData.sus,
+        nasaTlx: formData.nasaTlx,
+        depthGuide: formData.depthGuide,
+        timestamp: new Date().toISOString(),
+      });
+      setActiveStep((prevStep) => prevStep + 1);
+      alert('Survey submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting survey:', error);
+      alert('Error submitting survey. Please try again.');
+    }
+  };
+
+  const renderStepContent = (step: number) => {
+    switch (step) {
+      case 0:
+        return <Demographics onDataChange={(data) => handleDataChange('demographics', data)} />;
+      case 1:
+        return <SystemUsabilityScale onDataChange={(data) => handleDataChange('sus', data)} />;
+      case 2:
+        return <NasaTLX onDataChange={(data) => handleDataChange('nasaTlx', data)} />;
+      case 3:
+        return <DepthGuide onDataChange={(data) => handleDataChange('depthGuide', data)} />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto', p: 3 }}>
+      <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center">
+          Research Survey
+        </Typography>
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        
+        <Box sx={{ mt: 4 }}>
+          {activeStep === steps.length ? (
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h5" gutterBottom>
+                Thank you for completing the survey!
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              {renderStepContent(activeStep)}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+                >
+                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+                </Button>
+              </Box>
+            </>
+          )}
+        </Box>
+      </Paper>
+    </Box>
+  );
+};
+
+export default Survey; 
