@@ -61,6 +61,3 @@ REACT_APP_GOOGLE_PRIVATE_KEY=your_private_key_here
 
 Never commit your `.env` file to version control. The `.gitignore` file is configured to exclude it.
 
-## License
-
-[MIT](LICENSE)
