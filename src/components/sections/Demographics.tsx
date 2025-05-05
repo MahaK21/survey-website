@@ -68,7 +68,7 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange }) => {
         >
           <MenuItem value="Radiology">Radiology</MenuItem>
           <MenuItem value="Cardiology">Cardiology</MenuItem>
-          <MenuItem value="Neurology">Neurology</MenuItem>
+          <MenuItem value="Emergency Medicine">Emergency Medicine</MenuItem>
           <MenuItem value="Other">Other</MenuItem>
         </Select>
       </FormControl>

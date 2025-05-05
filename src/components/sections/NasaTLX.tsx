@@ -6,6 +6,7 @@ import {
   Grid,
   Paper,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 interface NasaTLXProps {
   onDataChange: (data: any) => void;
@@ -56,21 +57,25 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange }) => {
       }));
     };
 
-  const renderSlider = (condition: 'withDepthGuide' | 'withoutDepthGuide', index: number) => (
-    <Slider
-      value={responses[condition][index]}
-      onChange={handleSliderChange(condition, index)}
-      aria-labelledby={`${condition}-slider-${index}`}
-      valueLabelDisplay="auto"
-      step={1}
-      marks={[
-        { value: 0, label: index === 2 ? 'Not at all' : 'Very Low' },
-        { value: 20, label: index === 2 ? 'Very Rushed' : 'Very High' },
-      ]}
-      min={0}
-      max={20}
-    />
-  );
+  const renderSlider = (condition: 'withDepthGuide' | 'withoutDepthGuide', index: number) => {
+    const marks = Array.from({ length: 21 }, (_, i) => {
+      if (i === 0) return { value: 0, label: 'Very Low' };
+      if (i === 20) return { value: 20, label: 'Very High' };
+      return { value: i };
+    });
+    return (
+      <Slider
+        value={responses[condition][index]}
+        onChange={handleSliderChange(condition, index)}
+        aria-labelledby={`${condition}-slider-${index}`}
+        valueLabelDisplay="auto"
+        step={1}
+        marks={marks}
+        min={0}
+        max={20}
+      />
+    );
+  };
 
   return (
     <Box>

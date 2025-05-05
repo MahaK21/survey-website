@@ -20,6 +20,7 @@ const Survey: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     demographics: {
+      name: '',
       specialty: '',
       otherSpecialty: '',
       trainingStatus: '',
@@ -49,7 +50,7 @@ const Survey: React.FC = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
 
-  const handleDataChange = (section: string, data: any) => {
+  const handleDataChange = (section: string, data: unknown) => {
     setFormData((prev) => ({
       ...prev,
       [section]: data,
@@ -91,9 +92,19 @@ const Survey: React.FC = () => {
   return (
     <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto', p: 3 }}>
       <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom align="center">
-          Research Survey
-        </Typography>
+        {/* Introduction Block */}
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h4" gutterBottom align="center">
+            User Survey
+          </Typography>
+        </Box>
+        {/* Show description only on first page */}
+        {activeStep === 0 && (
+          <Typography variant="body1" gutterBottom align="center" sx={{ mb: 4 }}>
+            This study is evaluating the usability of a new tool for annotating lung ultrasound images. Please answer the following questions based on your experience.
+          </Typography>
+        )}
+        {/* End Introduction Block */}
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label) => (
             <Step key={label}>

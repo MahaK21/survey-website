@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import Survey from './components/Survey';
 
 const theme = createTheme({
@@ -33,6 +33,18 @@ function App() {
           </Routes>
         </Container>
       </Router>
+      {/* Footer */}
+      <Box component="footer" sx={{ mt: 4, py: 2, borderTop: '1px solid #eee', textAlign: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 4, mb: 1 }}>
+          <img src="/logos/queensLogo.jpg" alt="Queen's University" height={40} />
+          <img src="/logos/mediLogo.png" alt="Med-i Lab" height={40} />
+          <img src="/logos/perkLogo.jpg" alt="Perk Lab" height={40} />
+        </Box>
+        <span style={{ color: '#888', fontSize: 14 }}>
+          © 2025 Queen's University, Med-i Lab, The Perk Lab. All rights reserved.
+        </span>
+      </Box>
+      {/* End Footer */}
     </ThemeProvider>
   );
 }
