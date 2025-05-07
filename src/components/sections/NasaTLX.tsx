@@ -18,11 +18,11 @@ const questions = [
     description: 'Did it require a lot of thinking, concentration, or problem-solving?',
   },
   {
-    title: '2. How physically demanding was the task?',
-    description: 'Did you feel physically tired due to actions like navigating, clicking, or holding tools?',
+    title: '2. How much interaction (clicking or adjusting) did the task require?',
+    description: 'Did you need to make repeated changes or perform a lot of manual adjustments?',
   },
   {
-    title: '3. How hurried or rushed did you feel?',
+    title: '3. Did you feel like the process was efficient or took longer than expected?',
     description: "Did you feel rushed or like you didn't have enough time to finish the task?",
   },
   {

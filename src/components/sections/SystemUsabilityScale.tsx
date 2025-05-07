@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box,
   Typography,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
   Radio,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from '@mui/material';
 
 interface SystemUsabilityScaleProps {
@@ -71,7 +73,7 @@ const SystemUsabilityScale: React.FC<SystemUsabilityScaleProps> = ({ onDataChang
   ];
 
   return (
-    <Box>
+    <>
       <Typography variant="h5" gutterBottom>
         Section 2: System Usability Scale (SUS)
       </Typography>
@@ -79,34 +81,60 @@ const SystemUsabilityScale: React.FC<SystemUsabilityScaleProps> = ({ onDataChang
         Please indicate your level of agreement with the following statements about the system you just used.
       </Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {questions.map((question) => (
-          <FormControl key={question.id} component="fieldset" required>
-            <FormLabel component="legend">{question.text}</FormLabel>
-            <RadioGroup
-              row
-              value={responses[question.id] || ''}
-              onChange={handleChange(question.id)}
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                gap: 0.5,
-                '& .MuiFormControlLabel-root': {
-                  margin: 0,
-                  padding: '0 4px',
-                },
-              }}
-            >
-              <FormControlLabel value="1" control={<Radio />} label="Strongly Disagree" />
-              <FormControlLabel value="2" control={<Radio />} label="Disagree" />
-              <FormControlLabel value="3" control={<Radio />} label="Neutral" />
-              <FormControlLabel value="4" control={<Radio />} label="Agree" />
-              <FormControlLabel value="5" control={<Radio />} label="Strongly Agree" />
-            </RadioGroup>
-          </FormControl>
-        ))}
-      </Box>
-    </Box>
+      <TableContainer component={Paper}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ width: '60%' }} />
+              <TableCell align="center" sx={{ width: '8%' }} padding="checkbox">
+                Strongly Disagree
+              </TableCell>
+              <TableCell align="center" sx={{ width: '8%' }} padding="checkbox">
+                Disagree
+              </TableCell>
+              <TableCell align="center" sx={{ width: '8%' }} padding="checkbox">
+                Neutral
+              </TableCell>
+              <TableCell align="center" sx={{ width: '8%' }} padding="checkbox">
+                Agree
+              </TableCell>
+              <TableCell align="center" sx={{ width: '8%' }} padding="checkbox">
+                Strongly Agree
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {questions.map((question) => (
+              <TableRow key={question.id}>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ width: '60%', py: 1 }}
+                >
+                  {question.text}
+                </TableCell>
+                {['1', '2', '3', '4', '5'].map((value) => (
+                  <TableCell
+                    key={value}
+                    align="center"
+                    padding="checkbox"
+                    sx={{ px: 0.5, py: 1 }}
+                  >
+                    <Radio
+                      size="small"
+                      name={question.id}
+                      value={value}
+                      checked={responses[question.id] === value}
+                      onChange={handleChange(question.id)}
+                    />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 
