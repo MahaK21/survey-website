@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Box,
   Stepper,
@@ -50,12 +50,29 @@ const Survey: React.FC = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
 
-  const handleDataChange = (section: string, data: unknown) => {
+  const handleDataChange = useCallback((section: string, data: unknown) => {
     setFormData((prev) => ({
       ...prev,
       [section]: data,
     }));
-  };
+  }, []);
+
+  // Memoize section change handlers
+  const handleDemographicsChange = useCallback((data: unknown) => {
+    handleDataChange('demographics', data);
+  }, [handleDataChange]);
+
+  const handleSusChange = useCallback((data: unknown) => {
+    handleDataChange('sus', data);
+  }, [handleDataChange]);
+
+  const handleNasaTlxChange = useCallback((data: unknown) => {
+    handleDataChange('nasaTlx', data);
+  }, [handleDataChange]);
+
+  const handleDepthGuideChange = useCallback((data: unknown) => {
+    handleDataChange('depthGuide', data);
+  }, [handleDataChange]);
 
   const handleSubmit = async () => {
     try {
@@ -77,13 +94,25 @@ const Survey: React.FC = () => {
   const renderStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <Demographics onDataChange={(data) => handleDataChange('demographics', data)} />;
+        return <Demographics 
+          onDataChange={handleDemographicsChange} 
+          initialData={formData.demographics}
+        />;
       case 1:
-        return <SystemUsabilityScale onDataChange={(data) => handleDataChange('sus', data)} />;
+        return <SystemUsabilityScale 
+          onDataChange={handleSusChange} 
+          initialData={formData.sus}
+        />;
       case 2:
-        return <NasaTLX onDataChange={(data) => handleDataChange('nasaTlx', data)} />;
+        return <NasaTLX 
+          onDataChange={handleNasaTlxChange} 
+          initialData={formData.nasaTlx}
+        />;
       case 3:
-        return <DepthGuide onDataChange={(data) => handleDataChange('depthGuide', data)} />;
+        return <DepthGuide 
+          onDataChange={handleDepthGuideChange} 
+          initialData={formData.depthGuide}
+        />;
       default:
         return null;
     }

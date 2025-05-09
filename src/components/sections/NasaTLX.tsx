@@ -3,96 +3,61 @@ import {
   Box,
   Typography,
   Slider,
-  Grid,
   Paper,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 
-interface NasaTLXProps {
-  onDataChange: (data: any) => void;
+interface NasaTLXData {
+  withDepthGuide: number[];
+  withoutDepthGuide: number[];
 }
 
-const questions = [
-  {
-    title: '1. How mentally demanding was using the annotation tool?',
-    description: 'Did it require a lot of thinking, concentration, or problem-solving?',
-  },
-  {
-    title: '2. How much interaction (clicking or adjusting) did the task require?',
-    description: 'Did you need to make repeated changes or perform a lot of manual adjustments?',
-  },
-  {
-    title: '3. Did you feel like the process was efficient or took longer than expected?',
-    description: "Did you feel rushed or like you didn't have enough time to finish the task?",
-  },
-  {
-    title: '4. How satisfied are you with your overall performance using the module?',
-    description: 'How happy are you with how you performed? Did it feel accurate and correct? Did you achieve the annotations as you intended?',
-  },
-  {
-    title: '5. How much effort did you have to put in?',
-    description: 'Was the task straightforward or did it require significant effort?',
-  },
-  {
-    title: '6. How insecure, discouraged, or stressed did you feel?',
-    description: 'Were there any moments that made you feel irritated or confused',
-  },
-];
+interface NasaTLXProps {
+  onDataChange: (data: NasaTLXData) => void;
+  initialData: NasaTLXData;
+}
 
-const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange }) => {
-  const [responses, setResponses] = useState({
-    withDepthGuide: Array(questions.length).fill(0),
-    withoutDepthGuide: Array(questions.length).fill(0),
-  });
+const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
+  const [formData, setFormData] = useState<NasaTLXData>(initialData);
 
   useEffect(() => {
-    onDataChange(responses);
-  }, [responses, onDataChange]);
+    onDataChange(formData);
+  }, [formData, onDataChange]);
 
-  const handleSliderChange = (condition: 'withDepthGuide' | 'withoutDepthGuide', index: number) => 
-    (event: Event, newValue: number | number[]) => {
-      setResponses(prev => ({
+  const handleSliderChange = (index: number, condition: 'withDepthGuide' | 'withoutDepthGuide') => 
+    (_: Event, newValue: number | number[]) => {
+      setFormData(prev => ({
         ...prev,
-        [condition]: prev[condition].map((val, i) => (i === index ? newValue : val)),
+        [condition]: prev[condition].map((val, i) => 
+          i === index ? (Array.isArray(newValue) ? newValue[0] : newValue) : val
+        ),
       }));
     };
 
-  const renderSlider = (condition: 'withDepthGuide' | 'withoutDepthGuide', index: number) => {
-    const marks = Array.from({ length: 21 }, (_, i) => {
-      if (i === 0) return { value: 0, label: 'Very Low' };
-      if (i === 20) return { value: 20, label: 'Very High' };
-      return { value: i };
-    });
-    return (
-      <Slider
-        value={responses[condition][index]}
-        onChange={handleSliderChange(condition, index)}
-        aria-labelledby={`${condition}-slider-${index}`}
-        valueLabelDisplay="auto"
-        step={1}
-        marks={marks}
-        min={0}
-        max={20}
-      />
-    );
-  };
+  const scales = [
+    { name: 'Mental Demand', description: 'How mentally demanding was the task?' },
+    { name: 'Physical Demand', description: 'How physically demanding was the task?' },
+    { name: 'Temporal Demand', description: 'How hurried or rushed was the pace of the task?' },
+    { name: 'Performance', description: 'How successful were you in accomplishing what you were asked to do?' },
+    { name: 'Effort', description: 'How hard did you have to work to accomplish your level of performance?' },
+    { name: 'Frustration', description: 'How insecure, discouraged, irritated, stressed, and annoyed were you?' },
+  ];
 
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        Section 3: NASA-TLX (Workload Assessment)
+        NASA-TLX Assessment
       </Typography>
-      <Typography variant="body2" gutterBottom>
-        Please mark on the scale below where your experience falls for each factor.
+      <Typography variant="body1" paragraph>
+        Please rate your experience with both conditions on the following scales.
       </Typography>
 
-      {questions.map((question, index) => (
-        <Paper key={index} elevation={2} sx={{ p: 3, mb: 3 }}>
+      {scales.map((scale, index) => (
+        <Paper key={scale.name} elevation={2} sx={{ p: 3, mb: 3 }}>
           <Typography variant="h6" gutterBottom>
-            {question.title}
+            {scale.name}
           </Typography>
           <Typography variant="body2" color="text.secondary" gutterBottom>
-            {question.description}
+            {scale.description}
           </Typography>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -100,14 +65,36 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange }) => {
               <Typography variant="subtitle1" gutterBottom>
                 Without Depth Guide:
               </Typography>
-              {renderSlider('withoutDepthGuide', index)}
+              <Slider
+                value={formData.withoutDepthGuide[index]}
+                onChange={handleSliderChange(index, 'withoutDepthGuide')}
+                valueLabelDisplay="auto"
+                step={1}
+                marks={[
+                  { value: 0, label: 'Very Low' },
+                  { value: 20, label: 'Very High' },
+                ]}
+                min={0}
+                max={20}
+              />
             </Box>
             
             <Box>
               <Typography variant="subtitle1" gutterBottom>
                 With Depth Guide:
               </Typography>
-              {renderSlider('withDepthGuide', index)}
+              <Slider
+                value={formData.withDepthGuide[index]}
+                onChange={handleSliderChange(index, 'withDepthGuide')}
+                valueLabelDisplay="auto"
+                step={1}
+                marks={[
+                  { value: 0, label: 'Very Low' },
+                  { value: 20, label: 'Very High' },
+                ]}
+                min={0}
+                max={20}
+              />
             </Box>
           </Box>
         </Paper>

@@ -11,19 +11,24 @@ import {
   Paper,
 } from '@mui/material';
 
-interface SystemUsabilityScaleProps {
-  onDataChange: (data: any) => void;
+interface SusData {
+  [key: string]: string;
 }
 
-const SystemUsabilityScale: React.FC<SystemUsabilityScaleProps> = ({ onDataChange }) => {
-  const [responses, setResponses] = useState<{ [key: string]: string }>({});
+interface SystemUsabilityScaleProps {
+  onDataChange: (data: SusData) => void;
+  initialData: SusData;
+}
+
+const SystemUsabilityScale: React.FC<SystemUsabilityScaleProps> = ({ onDataChange, initialData }) => {
+  const [formData, setFormData] = useState<SusData>(initialData);
 
   useEffect(() => {
-    onDataChange(responses);
-  }, [responses, onDataChange]);
+    onDataChange(formData);
+  }, [formData, onDataChange]);
 
   const handleChange = (question: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setResponses(prev => ({
+    setFormData(prev => ({
       ...prev,
       [question]: event.target.value,
     }));
@@ -124,7 +129,7 @@ const SystemUsabilityScale: React.FC<SystemUsabilityScaleProps> = ({ onDataChang
                       size="small"
                       name={question.id}
                       value={value}
-                      checked={responses[question.id] === value}
+                      checked={formData[question.id] === value}
                       onChange={handleChange(question.id)}
                     />
                   </TableCell>

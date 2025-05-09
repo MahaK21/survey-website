@@ -10,20 +10,23 @@ import {
   Slider,
 } from '@mui/material';
 
-interface DemographicsProps {
-  onDataChange: (data: any) => void;
+interface DemographicsData {
+  name: string;
+  specialty: string;
+  otherSpecialty: string;
+  trainingStatus: string;
+  experience: string;
+  used3DSlicer: string;
+  slicerFamiliarity: number;
 }
 
-const Demographics: React.FC<DemographicsProps> = ({ onDataChange }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    specialty: '',
-    otherSpecialty: '',
-    trainingStatus: '',
-    experience: '',
-    used3DSlicer: '',
-    slicerFamiliarity: 0,
-  });
+interface DemographicsProps {
+  onDataChange: (data: DemographicsData) => void;
+  initialData: DemographicsData;
+}
+
+const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }) => {
+  const [formData, setFormData] = useState<DemographicsData>(initialData);
 
   useEffect(() => {
     onDataChange(formData);
