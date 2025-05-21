@@ -17,6 +17,7 @@ function doPost(e) {
       data.demographics.specialty,
       data.demographics.otherSpecialty,
       data.demographics.trainingStatus,
+      data.demographics.otherTrainingStatus,
       data.demographics.experience,
       data.demographics.used3DSlicer,
       data.demographics.slicerFamiliarity,
