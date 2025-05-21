@@ -34,12 +34,48 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
     };
 
   const scales = [
-    { name: 'Mental Demand', description: 'How mentally demanding was the task?' },
-    { name: 'Physical Demand', description: 'How physically demanding was the task?' },
-    { name: 'Temporal Demand', description: 'How hurried or rushed was the pace of the task?' },
-    { name: 'Performance', description: 'How successful were you in accomplishing what you were asked to do?' },
-    { name: 'Effort', description: 'How hard did you have to work to accomplish your level of performance?' },
-    { name: 'Frustration', description: 'How insecure, discouraged, irritated, stressed, and annoyed were you?' },
+    { 
+      name: 'Mental Demand', 
+      mainQuestion: 'How mentally demanding was the task?',
+      subQuestion: 'How much concentration or thinking was needed?',
+      minLabel: 'Very Low',
+      maxLabel: 'Very High'
+    },
+    { 
+      name: 'Physical Demand', 
+      mainQuestion: 'How much interaction (clicking or adjusting) did the task require?',
+      subQuestion: 'Did you need to make repeated changes or perform a lot of manual adjustments?',
+      minLabel: 'Very Low',
+      maxLabel: 'Very High'
+    },
+    { 
+      name: 'Temporal Demand', 
+      mainQuestion: 'Did you feel like the process was efficient or took longer than expected?',
+      subQuestion: 'How hurried or rushed was the pace of the task?',
+      minLabel: 'Very slow',
+      maxLabel: 'Very fast'
+    },
+    { 
+      name: 'Performance', 
+      mainQuestion: 'How successful were you in accomplishing what you were asked to do?',
+      subQuestion: 'How happy are you with how you performed? Did it feel accurate and correct? Did you achieve the annotations as you intended?',
+      minLabel: 'Very Poor Performance',
+      maxLabel: 'Excellent Performance'
+    },
+    { 
+      name: 'Effort', 
+      mainQuestion: 'How hard did you have to work to accomplish your level of performance?',
+      subQuestion: 'Was the task straightforward or did it require significant effort?',
+      minLabel: 'No Effort Required',
+      maxLabel: 'Extreme Effort Required'
+    },
+    { 
+      name: 'Frustration', 
+      mainQuestion: 'How insecure, discouraged, irritated, stressed, and annoyed were you?',
+      subQuestion: 'Were there any moments that made you feel irritated or confused? How much did you feel frustrated or stressed during the task?',
+      minLabel: 'Not Frustrated at all',
+      maxLabel: 'Extremely Frustrated'
+    },
   ];
 
   return (
@@ -53,11 +89,33 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
 
       {scales.map((scale, index) => (
         <Paper key={scale.name} elevation={2} sx={{ p: 3, mb: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            {scale.name}
-          </Typography>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 0.5, 
+            mb: 1,
+            flexWrap: 'nowrap'
+          }}>
+            <Typography variant="h6" sx={{ 
+              whiteSpace: 'nowrap',
+              fontWeight: 'bold',
+              flexShrink: 0
+            }}>
+              {scale.name} —
+            </Typography>
+            <Typography variant="body1" sx={{ 
+              flex: 1,
+              minWidth: 0,
+              whiteSpace: 'normal',
+              lineHeight: 1.4,
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              {scale.mainQuestion}
+            </Typography>
+          </Box>
           <Typography variant="body2" color="text.secondary" gutterBottom>
-            {scale.description}
+            {scale.subQuestion}
           </Typography>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -65,36 +123,66 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
               <Typography variant="subtitle1" gutterBottom>
                 Without Depth Guide:
               </Typography>
-              <Slider
-                value={formData.withoutDepthGuide[index]}
-                onChange={handleSliderChange(index, 'withoutDepthGuide')}
-                valueLabelDisplay="auto"
-                step={1}
-                marks={[
-                  { value: 0, label: 'Very Low' },
-                  { value: 20, label: 'Very High' },
-                ]}
-                min={0}
-                max={20}
-              />
+              <Box sx={{ px: 2 }}>
+                <Slider
+                  value={formData.withoutDepthGuide[index]}
+                  onChange={handleSliderChange(index, 'withoutDepthGuide')}
+                  valueLabelDisplay="auto"
+                  step={1}
+                  marks={[
+                    { value: 0, label: scales[index].minLabel },
+                    { value: 20, label: scales[index].maxLabel },
+                  ]}
+                  min={0}
+                  max={20}
+                  sx={{
+                    '& .MuiSlider-markLabel': {
+                      fontSize: '0.75rem',
+                      transform: 'translateX(-50%)',
+                      whiteSpace: 'nowrap',
+                    },
+                    '& .MuiSlider-markLabel[data-index="0"]': {
+                      transform: 'translateX(0)',
+                    },
+                    '& .MuiSlider-markLabel[data-index="1"]': {
+                      transform: 'translateX(-100%)',
+                    },
+                  }}
+                />
+              </Box>
             </Box>
             
             <Box>
               <Typography variant="subtitle1" gutterBottom>
                 With Depth Guide:
               </Typography>
-              <Slider
-                value={formData.withDepthGuide[index]}
-                onChange={handleSliderChange(index, 'withDepthGuide')}
-                valueLabelDisplay="auto"
-                step={1}
-                marks={[
-                  { value: 0, label: 'Very Low' },
-                  { value: 20, label: 'Very High' },
-                ]}
-                min={0}
-                max={20}
-              />
+              <Box sx={{ px: 2 }}>
+                <Slider
+                  value={formData.withDepthGuide[index]}
+                  onChange={handleSliderChange(index, 'withDepthGuide')}
+                  valueLabelDisplay="auto"
+                  step={1}
+                  marks={[
+                    { value: 0, label: scales[index].minLabel },
+                    { value: 20, label: scales[index].maxLabel },
+                  ]}
+                  min={0}
+                  max={20}
+                  sx={{
+                    '& .MuiSlider-markLabel': {
+                      fontSize: '0.75rem',
+                      transform: 'translateX(-50%)',
+                      whiteSpace: 'nowrap',
+                    },
+                    '& .MuiSlider-markLabel[data-index="0"]': {
+                      transform: 'translateX(0)',
+                    },
+                    '& .MuiSlider-markLabel[data-index="1"]': {
+                      transform: 'translateX(-100%)',
+                    },
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
         </Paper>
