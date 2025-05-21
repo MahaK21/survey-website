@@ -15,6 +15,7 @@ interface DemographicsData {
   specialty: string;
   otherSpecialty: string;
   trainingStatus: string;
+  otherTrainingStatus: string;
   experience: string;
   used3DSlicer: string;
   slicerFamiliarity: number;
@@ -40,9 +41,10 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
   };
 
   const handleSliderChange = (_: Event, newValue: number | number[]) => {
+    const rawValue = Array.isArray(newValue) ? newValue[0] : newValue;
     setFormData(prev => ({
       ...prev,
-      slicerFamiliarity: Array.isArray(newValue) ? newValue[0] : newValue,
+      slicerFamiliarity: rawValue + 1, // Convert 0-4 to 1-5
     }));
   };
 
@@ -99,8 +101,20 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
           <MenuItem value="Resident">Resident</MenuItem>
           <MenuItem value="Fellow">Fellow</MenuItem>
           <MenuItem value="Attending">Attending</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
         </Select>
       </FormControl>
+
+      {formData.trainingStatus === 'Other' && (
+        <TextField
+          fullWidth
+          label="Please specify your training status"
+          value={formData.otherTrainingStatus}
+          onChange={handleChange('otherTrainingStatus')}
+          sx={{ mb: 3 }}
+          required
+        />
+      )}
 
       <FormControl fullWidth sx={{ mb: 3 }}>
         <InputLabel>2. How many years of experience do you have with lung ultrasound?</InputLabel>
@@ -135,19 +149,37 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
           <Typography id="slicer-familiarity-slider" gutterBottom>
             4. How familiar were you with the 3D Slicer software before participating in this study?
           </Typography>
-          <Slider
-            value={formData.slicerFamiliarity}
-            onChange={handleSliderChange}
-            aria-labelledby="slicer-familiarity-slider"
-            valueLabelDisplay="auto"
-            step={1}
-            marks={[
-              { value: 0, label: 'Very Low' },
-              { value: 20, label: 'Very High' },
-            ]}
-            min={0}
-            max={20}
-          />
+          <Box sx={{ px: 2 }}>
+            <Slider
+              value={formData.slicerFamiliarity - 1} // Convert 1-5 to 0-4 for display
+              onChange={handleSliderChange}
+              aria-labelledby="slicer-familiarity-slider"
+              valueLabelDisplay="auto"
+              step={1}
+              marks={[
+                { value: 0, label: 'Not Familiar' },
+                { value: 1, label: 'Slightly Familiar' },
+                { value: 2, label: 'Moderately Familiar' },
+                { value: 3, label: 'Very Familiar' },
+                { value: 4, label: 'Extremely Familiar' },
+              ]}
+              min={0}
+              max={4}
+              sx={{
+                '& .MuiSlider-markLabel': {
+                  fontSize: '0.75rem',
+                  transform: 'translateX(-50%)',
+                  whiteSpace: 'nowrap',
+                },
+                '& .MuiSlider-markLabel[data-index="0"]': {
+                  transform: 'translateX(0)',
+                },
+                '& .MuiSlider-markLabel[data-index="4"]': {
+                  transform: 'translateX(-100%)',
+                },
+              }}
+            />
+          </Box>
         </Box>
       )}
     </Box>
