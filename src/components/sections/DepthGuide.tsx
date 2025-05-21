@@ -38,9 +38,10 @@ const DepthGuide: React.FC<DepthGuideProps> = ({ onDataChange, initialData }) =>
   };
 
   const handleSliderChange = (_: Event, newValue: number | number[]) => {
+    const rawValue = Array.isArray(newValue) ? newValue[0] : newValue;
     setFormData(prev => ({
       ...prev,
-      usefulness: Array.isArray(newValue) ? newValue[0] : newValue,
+      usefulness: rawValue + 1,
     }));
   };
 
@@ -51,22 +52,40 @@ const DepthGuide: React.FC<DepthGuideProps> = ({ onDataChange, initialData }) =>
       </Typography>
 
       <Box sx={{ mb: 4 }}>
-        <Typography id="usefulness-slider" gutterBottom>
+        <Typography variant="body1" gutterBottom>
           1. How useful was the depth guide in helping you annotate B-lines?
         </Typography>
-        <Slider
-          value={formData.usefulness}
-          onChange={handleSliderChange}
-          aria-labelledby="usefulness-slider"
-          valueLabelDisplay="auto"
-          step={1}
-          marks={[
-            { value: 0, label: 'Not Useful' },
-            { value: 20, label: 'Very Useful' },
-          ]}
-          min={0}
-          max={20}
-        />
+        <Box sx={{ px: 2 }}>
+          <Slider
+            value={formData.usefulness - 1}
+            onChange={handleSliderChange}
+            aria-labelledby="usefulness-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            marks={[
+              { value: 0, label: 'Very Useless' },
+              { value: 1, label: 'Somewhat Useless' },
+              { value: 2, label: 'Neutral' },
+              { value: 3, label: 'Somewhat Useful' },
+              { value: 4, label: 'Very Useful' },
+            ]}
+            min={0}
+            max={4}
+            sx={{
+              '& .MuiSlider-markLabel': {
+                fontSize: '0.75rem',
+                transform: 'translateX(-50%)',
+                whiteSpace: 'nowrap',
+              },
+              '& .MuiSlider-markLabel[data-index="0"]': {
+                transform: 'translateX(0)',
+              },
+              '& .MuiSlider-markLabel[data-index="4"]': {
+                transform: 'translateX(-100%)',
+              },
+            }}
+          />
+        </Box>
       </Box>
 
       <FormControl fullWidth sx={{ mb: 3 }}>
