@@ -24,6 +24,7 @@ const Survey: React.FC = () => {
       specialty: '',
       otherSpecialty: '',
       trainingStatus: '',
+      otherTrainingStatus: '',
       experience: '',
       used3DSlicer: '',
       slicerFamiliarity: 0,

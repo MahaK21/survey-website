@@ -4,6 +4,7 @@ interface SurveyResponse {
       specialty: string;
       otherSpecialty: string;
       trainingStatus: string;
+      otherTrainingStatus: string;
       experience: string;
       used3DSlicer: string;
       slicerFamiliarity: number;
@@ -27,7 +28,7 @@ interface SurveyResponse {
     try {
       console.log('Submitting survey data:', data);
       
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxbgunogxxHPhXkRKaUMJMfP2OrLozlbU76yG1XdmANXMJi503kstU2E99NMW7b7d1L/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycby3_LpqSVsL8w6xMSq0KkymG4xHvqYDgGRC9AhI6pLmrNdr5UDdDX5yi1gfKp03s6g/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
