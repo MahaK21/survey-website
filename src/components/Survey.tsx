@@ -20,7 +20,7 @@ const Survey: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     demographics: {
-      name: '',
+      initials: '',
       specialty: '',
       otherSpecialty: '',
       trainingStatus: '',

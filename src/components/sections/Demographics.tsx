@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 interface DemographicsData {
-  name: string;
+  initials: string;
   specialty: string;
   otherSpecialty: string;
   trainingStatus: string;
@@ -56,9 +56,9 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
 
       <TextField
         fullWidth
-        label="Name (First and Last)"
-        value={formData.name}
-        onChange={handleChange('name')}
+        label="Initials"
+        value={formData.initials}
+        onChange={handleChange('initials')}
         sx={{ mb: 3 }}
         required
       />
@@ -117,17 +117,16 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
       )}
 
       <FormControl fullWidth sx={{ mb: 3 }}>
-        <InputLabel>2. How many years of experience do you have with lung ultrasound?</InputLabel>
+        <InputLabel>2. How much experience do you have with lung ultrasound?</InputLabel>
         <Select
           value={formData.experience}
-          label="2. How many years of experience do you have with lung ultrasound?"
+          label="2. How much experience do you have with lung ultrasound?"
           onChange={handleChange('experience')}
           required
         >
-          <MenuItem value="0-2">0–2 years</MenuItem>
-          <MenuItem value="3-5">3–5 years</MenuItem>
-          <MenuItem value="6-10">6–10 years</MenuItem>
-          <MenuItem value="10+">10+ years</MenuItem>
+          <MenuItem value="not_familiar">Not familiar at all</MenuItem>
+          <MenuItem value="minimal">Very minimal/introductory or somewhat familiar</MenuItem>
+          <MenuItem value="familiar">Very familiar (regular exposure)</MenuItem>
         </Select>
       </FormControl>
 

@@ -1,6 +1,6 @@
 interface SurveyResponse {
     demographics: {
-      name: string;
+      initials: string;
       specialty: string;
       otherSpecialty: string;
       trainingStatus: string;
@@ -28,7 +28,7 @@ interface SurveyResponse {
     try {
       console.log('Submitting survey data:', data);
       
-      const response = await fetch('https://script.google.com/macros/s/AKfycby3_LpqSVsL8w6xMSq0KkymG4xHvqYDgGRC9AhI6pLmrNdr5UDdDX5yi1gfKp03s6g/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzL13C7mNYY0eXUqP6hC3YC7fsUnyFOzw-iFLeqkc8npPxb1EhWjyciexJjBb940qQY/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
