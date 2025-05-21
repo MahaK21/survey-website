@@ -129,10 +129,10 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
                   onChange={handleSliderChange(index, 'withoutDepthGuide')}
                   valueLabelDisplay="auto"
                   step={1}
-                  marks={[
-                    { value: 0, label: scales[index].minLabel },
-                    { value: 20, label: scales[index].maxLabel },
-                  ]}
+                  marks={Array.from({ length: 21 }, (_, i) => ({
+                    value: i,
+                    label: i === 0 ? scales[index].minLabel : i === 20 ? scales[index].maxLabel : undefined
+                  }))}
                   min={0}
                   max={20}
                   sx={{
@@ -144,8 +144,17 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
                     '& .MuiSlider-markLabel[data-index="0"]': {
                       transform: 'translateX(0)',
                     },
-                    '& .MuiSlider-markLabel[data-index="1"]': {
+                    '& .MuiSlider-markLabel[data-index="20"]': {
                       transform: 'translateX(-100%)',
+                    },
+                    '& .MuiSlider-mark': {
+                      width: '2px',
+                      height: '8px',
+                      backgroundColor: 'currentColor',
+                    },
+                    '& .MuiSlider-mark[data-index="0"], & .MuiSlider-mark[data-index="10"], & .MuiSlider-mark[data-index="20"]': {
+                      width: '3px',
+                      height: '16px',
                     },
                   }}
                 />
@@ -162,10 +171,10 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
                   onChange={handleSliderChange(index, 'withDepthGuide')}
                   valueLabelDisplay="auto"
                   step={1}
-                  marks={[
-                    { value: 0, label: scales[index].minLabel },
-                    { value: 20, label: scales[index].maxLabel },
-                  ]}
+                  marks={Array.from({ length: 21 }, (_, i) => ({
+                    value: i,
+                    label: i === 0 ? scales[index].minLabel : i === 20 ? scales[index].maxLabel : undefined
+                  }))}
                   min={0}
                   max={20}
                   sx={{
@@ -177,8 +186,17 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
                     '& .MuiSlider-markLabel[data-index="0"]': {
                       transform: 'translateX(0)',
                     },
-                    '& .MuiSlider-markLabel[data-index="1"]': {
+                    '& .MuiSlider-markLabel[data-index="20"]': {
                       transform: 'translateX(-100%)',
+                    },
+                    '& .MuiSlider-mark': {
+                      width: '2px',
+                      height: '8px',
+                      backgroundColor: 'currentColor',
+                    },
+                    '& .MuiSlider-mark[data-index="0"], & .MuiSlider-mark[data-index="10"], & .MuiSlider-mark[data-index="20"]': {
+                      width: '3px',
+                      height: '16px',
                     },
                   }}
                 />

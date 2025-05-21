@@ -177,6 +177,11 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
                 '& .MuiSlider-markLabel[data-index="4"]': {
                   transform: 'translateX(-100%)',
                 },
+                '& .MuiSlider-mark': {
+                  width: '2px',
+                  height: '8px',
+                  backgroundColor: 'currentColor',
+                },
               }}
             />
           </Box>
