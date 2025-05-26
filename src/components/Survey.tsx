@@ -7,6 +7,7 @@ import {
   Button,
   Typography,
   Paper,
+  CircularProgress,
 } from '@mui/material';
 import Demographics from './sections/Demographics';
 import SystemUsabilityScale from './sections/SystemUsabilityScale';
@@ -18,6 +19,8 @@ const steps = ['Demographics', 'System Usability Scale', 'NASA-TLX', 'Depth Guid
 
 const Survey: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     demographics: {
       initials: '',
@@ -77,6 +80,7 @@ const Survey: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
+      setIsSubmitting(true);
       await submitToGoogleSheets({
         demographics: formData.demographics,
         sus: formData.sus,
@@ -84,11 +88,14 @@ const Survey: React.FC = () => {
         depthGuide: formData.depthGuide,
         timestamp: new Date().toISOString(),
       });
+      setIsSubmitted(true);
       setActiveStep((prevStep) => prevStep + 1);
       alert('Survey submitted successfully!');
     } catch (error) {
       console.error('Error submitting survey:', error);
       alert('Error submitting survey. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -144,7 +151,7 @@ const Survey: React.FC = () => {
         </Stepper>
         
         <Box sx={{ mt: 4 }}>
-          {activeStep === steps.length ? (
+          {isSubmitted ? (
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="h5" gutterBottom>
                 Thank you for completing the survey!
@@ -155,7 +162,7 @@ const Survey: React.FC = () => {
               {renderStepContent(activeStep)}
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
                 <Button
-                  disabled={activeStep === 0}
+                  disabled={activeStep === 0 || isSubmitting}
                   onClick={handleBack}
                 >
                   Back
@@ -163,8 +170,10 @@ const Survey: React.FC = () => {
                 <Button
                   variant="contained"
                   onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+                  disabled={isSubmitting}
+                  startIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
                 >
-                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+                  {isSubmitting ? 'Submitting...' : activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
               </Box>
             </>
