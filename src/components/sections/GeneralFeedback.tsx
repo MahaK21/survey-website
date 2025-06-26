@@ -91,20 +91,26 @@ const GeneralFeedback: React.FC<GeneralFeedbackProps> = ({ onDataChange, initial
               },
             }}
           />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, px: 1 }}>
+            <Typography variant="caption" color="text.secondary">Not useful at all</Typography>
+            <Typography variant="caption" color="text.secondary">Very useful</Typography>
+          </Box>
         </Box>
       </Box>
 
       <FormControl fullWidth sx={{ mb: 3 }}>
         <Typography gutterBottom>
-          2. Did keyboard shortcuts help speed up your workflow?
+          2. How did keyboard shortcuts affect your workflow speed?
         </Typography>
         <RadioGroup
           value={formData.shortcutsHelp}
           onChange={handleChange('shortcutsHelp')}
           row
         >
-          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-          <FormControlLabel value="no" control={<Radio />} label="No" />
+          <FormControlLabel value="faster" control={<Radio />} label="Faster" />
+          <FormControlLabel value="same_speed" control={<Radio />} label="Same speed" />
+          <FormControlLabel value="slower" control={<Radio />} label="Slower" />
+          <FormControlLabel value="didnt_use" control={<Radio />} label="Didn't use them" />
         </RadioGroup>
         <TextField
           fullWidth
@@ -156,6 +162,10 @@ const GeneralFeedback: React.FC<GeneralFeedbackProps> = ({ onDataChange, initial
               },
             }}
           />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, px: 1 }}>
+            <Typography variant="caption" color="text.secondary">Very unclear</Typography>
+            <Typography variant="caption" color="text.secondary">Very clear</Typography>
+          </Box>
         </Box>
       </Box>
 
@@ -198,6 +208,10 @@ const GeneralFeedback: React.FC<GeneralFeedbackProps> = ({ onDataChange, initial
               },
             }}
           />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, px: 1 }}>
+            <Typography variant="caption" color="text.secondary">Not responsive</Typography>
+            <Typography variant="caption" color="text.secondary">Very responsive</Typography>
+          </Box>
         </Box>
       </Box>
 
