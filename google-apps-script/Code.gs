@@ -13,7 +13,7 @@ function doPost(e) {
     // Flatten the data structure
     const row = [
       data.timestamp, // timestamp
-      data.demographics.name,
+      data.demographics.initials,
       data.demographics.specialty,
       data.demographics.otherSpecialty,
       data.demographics.trainingStatus,
@@ -46,12 +46,13 @@ function doPost(e) {
       data.nasaTlx.withDepthGuide[3] || 0,
       data.nasaTlx.withDepthGuide[4] || 0,
       data.nasaTlx.withDepthGuide[5] || 0,
-      // Depth Guide feedback
-      data.depthGuide.usefulness || 0,
-      data.depthGuide.helpWithBLines || "",
-      data.depthGuide.moreVariationWithout || "",
-      data.depthGuide.shouldBeIncluded || "",
-      data.depthGuide.additionalFeedback || "",
+      // General Feedback
+      data.generalFeedback.depthGuideUsefulness || 0,
+      data.generalFeedback.shortcutsHelp || "",
+      data.generalFeedback.shortcutsComments || "",
+      data.generalFeedback.iconsLayoutClarity || 0,
+      data.generalFeedback.responsiveness || 0,
+      data.generalFeedback.overallFeedback || "",
     ];
 
     // Add the row to the sheet

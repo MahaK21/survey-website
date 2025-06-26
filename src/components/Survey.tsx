@@ -12,10 +12,10 @@ import {
 import Demographics from './sections/Demographics';
 import SystemUsabilityScale from './sections/SystemUsabilityScale';
 import NasaTLX from './sections/NasaTLX';
-import DepthGuide from './sections/DepthGuide';
+import GeneralFeedback from './sections/GeneralFeedback';
 import { submitToGoogleSheets } from '../services/googleSheets';
 
-const steps = ['Demographics', 'System Usability Scale', 'NASA-TLX', 'Depth Guide'];
+const steps = ['Demographics', 'System Usability Scale', 'NASA-TLX', 'General Feedback'];
 
 const Survey: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -37,12 +37,13 @@ const Survey: React.FC = () => {
       withDepthGuide: Array(6).fill(0),
       withoutDepthGuide: Array(6).fill(0),
     },
-    depthGuide: {
-      usefulness: 0,
-      helpWithBLines: '',
-      moreVariationWithout: '',
-      shouldBeIncluded: '',
-      additionalFeedback: '',
+    generalFeedback: {
+      depthGuideUsefulness: 0,
+      shortcutsHelp: '',
+      shortcutsComments: '',
+      iconsLayoutClarity: 0,
+      responsiveness: 0,
+      overallFeedback: '',
     },
   });
 
@@ -74,8 +75,8 @@ const Survey: React.FC = () => {
     handleDataChange('nasaTlx', data);
   }, [handleDataChange]);
 
-  const handleDepthGuideChange = useCallback((data: unknown) => {
-    handleDataChange('depthGuide', data);
+  const handleGeneralFeedbackChange = useCallback((data: unknown) => {
+    handleDataChange('generalFeedback', data);
   }, [handleDataChange]);
 
   const handleSubmit = async () => {
@@ -85,7 +86,7 @@ const Survey: React.FC = () => {
         demographics: formData.demographics,
         sus: formData.sus,
         nasaTlx: formData.nasaTlx,
-        depthGuide: formData.depthGuide,
+        generalFeedback: formData.generalFeedback,
         timestamp: new Date().toISOString(),
       });
       setIsSubmitted(true);
@@ -117,9 +118,9 @@ const Survey: React.FC = () => {
           initialData={formData.nasaTlx}
         />;
       case 3:
-        return <DepthGuide 
-          onDataChange={handleDepthGuideChange} 
-          initialData={formData.depthGuide}
+        return <GeneralFeedback 
+          onDataChange={handleGeneralFeedbackChange} 
+          initialData={formData.generalFeedback}
         />;
       default:
         return null;

@@ -14,12 +14,13 @@ interface SurveyResponse {
       withDepthGuide: number[];
       withoutDepthGuide: number[];
     };
-    depthGuide: {
-      usefulness: number;
-      helpWithBLines: string;
-      moreVariationWithout: string;
-      shouldBeIncluded: string;
-      additionalFeedback: string;
+    generalFeedback: {
+      depthGuideUsefulness: number;
+      shortcutsHelp: string;
+      shortcutsComments: string;
+      iconsLayoutClarity: number;
+      responsiveness: number;
+      overallFeedback: string;
     };
     timestamp: string;
   }
@@ -28,7 +29,7 @@ interface SurveyResponse {
     try {
       console.log('Submitting survey data:', data);
       
-      const response = await fetch('https://script.google.com/macros/s/AKfycbzL13C7mNYY0eXUqP6hC3YC7fsUnyFOzw-iFLeqkc8npPxb1EhWjyciexJjBb940qQY/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwqa26Bcq3uMtsoulboLOUKNiIXtKYh3VzY55YfsUkhMknSuNzMWw9gXbxmQTZwOTX1/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
