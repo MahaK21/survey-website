@@ -1,89 +1,314 @@
-# Lung Ultrasound Annotation Tool Survey
+# Survey Website - Complete Setup Guide 🚀
 
-A React-based survey application designed to evaluate the usability and effectiveness of a lung ultrasound annotation tool, specifically focusing on the impact of a depth guide feature.
+Hey there! 👋 This guide will walk you through creating your own survey website from scratch. It's like building with LEGO blocks - we'll go step by step, and you'll have a working survey site at the end!
 
-## Project Overview
+## What You'll Build
 
-This survey was created to gather user feedback on a lung ultrasound annotation tool, with particular emphasis on:
+A beautiful, multi-step survey website that:
 
-- User demographics and experience with similar tools
-- System usability assessment using the System Usability Scale (SUS)
-- Workload assessment using NASA-TLX
-- Specific feedback on the depth guide feature
+- Collects user responses
+- Saves data to Google Sheets
+- Looks professional with Material-UI
+- Works on phones, tablets, and computers
+- Deploys easily to the web
 
-## Technical Implementation
+---
 
-### Frontend
+## 📋 Prerequisites
 
-- Built with React and TypeScript
-- Uses Material-UI for a modern, responsive design
-- Implements a multi-step form with data persistence
-- Features:
-  - Demographics section
-  - System Usability Scale (SUS) assessment
-  - NASA-TLX workload assessment
-  - Depth guide feedback section
+Before we start, make sure you have:
 
-### Data Collection
+- [Node.js](https://nodejs.org/) installed (version 16 or higher)
+- A Google account (for Google Sheets)
+- A GitHub account (for hosting)
+- A Vercel account (for deployment)
 
-- Responses are stored in Google Sheets
-- Uses Google Apps Script for serverless backend
-- Implements CORS handling for secure data submission
+---
 
-### Google Apps Script Setup
+## 🚀 Step 1: Get the Code
 
-1. Create a new Google Sheet
-2. Go to Extensions > Apps Script
-3. Copy the contents of `google-apps-script/Code.gs` into the script editor
-4. Deploy as a web app:
-   - Execute as: "Me"
-   - Who has access: "Anyone"
-5. Copy the deployment URL and update it in `src/services/googleSheets.ts`
-
-## Development
+### Option A: Clone the Repository
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm start
-
-# Build for production
-npm run build
+# Open your terminal and run:
+git clone https://github.com/your-username/survey-website.git
+cd survey-website
 ```
 
-## Project Structure
+### Option B: Download and Extract
+
+1. Click the green "Code" button on GitHub
+2. Select "Download ZIP"
+3. Extract the folder
+4. Open terminal in the extracted folder
+
+---
+
+## 🏗️ Step 2: Understand the Structure
+
+Here's what's in your project:
 
 ```
 survey-website/
 ├── src/
 │   ├── components/
-│   │   ├── sections/
+│   │   ├── sections/          # Survey sections
 │   │   │   ├── Demographics.tsx
 │   │   │   ├── SystemUsabilityScale.tsx
 │   │   │   ├── NasaTLX.tsx
-│   │   │   └── DepthGuide.tsx
-│   │   └── Survey.tsx
-│   └── services/
-│       └── googleSheets.ts
-└── google-apps-script/
-    └── Code.gs
+│   │   │   └── GeneralFeedback.tsx
+│   │   └── Survey.tsx        # Main survey component
+│   ├── services/
+│   │   └── googleSheets.ts   # Google Sheets connection
+│   └── App.tsx               # Main app file
+├── public/
+│   ├── logos/                # Your organization logos
+│   └── index.html
+├── google-apps-script/
+│   └── Code.gs              # Google Apps Script code
+└── package.json             # Dependencies and scripts
 ```
 
-## Features
+---
 
-- Multi-section survey form with progress tracking
-- Data persistence between sections
-- Responsive design for all screen sizes
-- Real-time data submission to Google Sheets
-- Error handling and user feedback
-- Clean, professional UI with Material-UI components
+## 🎨 Step 3: Customize Your Survey
 
-## Future Improvements
+### Change the Website Name
 
-- Add data validation
-- Implement survey completion tracking
-- Add analytics dashboard
-- Support for multiple languages
-- Export functionality for survey results
+**File to edit:** `public/index.html`
+
+```html
+<!-- Change this line: -->
+<title>Survey Website</title>
+```
+
+**File to edit:** `src/App.tsx`
+
+```typescript
+// Change the title in the Survey component:
+<Typography variant="h4" gutterBottom align="center">
+  Your Survey Title Here
+</Typography>
+```
+
+### Add or Remove Survey Sections
+
+**File to edit:** `src/components/Survey.tsx`
+
+1. **Add a new section:**
+
+   ```typescript
+   // Add your new section import at the top
+   import YourNewSection from './sections/YourNewSection';
+
+   // Add to the steps array:
+   const steps = ['Demographics', 'Your New Section', 'System Usability Scale', 'NASA-TLX', 'General Feedback'];
+
+   // Add to the renderStepContent function:
+   case 1: // Adjust the number based on position
+     return <YourNewSection
+       onDataChange={handleYourNewSectionChange}
+       initialData={formData.yourNewSection}
+     />;
+   ```
+
+2. **Remove a section:**
+   - Delete the import line
+   - Remove from the `steps` array
+   - Remove the case from `renderStepContent`
+   - Remove the data from `formData` state
+
+### Change Survey Questions
+
+Each section is in its own file in `src/components/sections/`:
+
+- **Demographics:** `Demographics.tsx`
+- **System Usability Scale:** `SystemUsabilityScale.tsx`
+- **NASA-TLX:** `NasaTLX.tsx`
+- **General Feedback:** `GeneralFeedback.tsx`
+
+Just edit the questions in these files!
+
+### Update Logos and Branding
+
+**File to edit:** `src/App.tsx`
+
+```typescript
+// Replace the logos in the footer:
+<img src="/logos/yourLogo.png" alt="Your Organization" height={40} />
+```
+
+**Add your logos to:** `public/logos/` folder
+
+---
+
+## 📊 Step 4: Set Up Google Sheets
+
+### Create Your Google Sheet
+
+1. Go to [Google Sheets](https://sheets.google.com)
+2. Create a new spreadsheet
+3. Name it something like "Survey Responses"
+4. **Important:** Note the spreadsheet ID from the URL:
+   ```
+   https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID_HERE/edit
+   ```
+
+### Set Up Google Apps Script
+
+1. In your Google Sheet, go to **Extensions** → **Apps Script**
+2. Delete any existing code
+3. Copy the entire contents of `google-apps-script/Code.gs`
+4. Paste it into the Apps Script editor
+5. Click **Save** (the disk icon)
+6. Click **Deploy** → **New deployment**
+7. Choose **Web app** as the type
+8. Set these settings:
+   - **Execute as:** Me
+   - **Who has access:** Anyone
+9. Click **Deploy**
+10. **Copy the deployment URL** (you'll need this next!)
+
+### Connect Your Website to Google Sheets
+
+**File to edit:** `src/services/googleSheets.ts`
+
+Replace the URL in line 15:
+
+```typescript
+const response = await fetch('YOUR_DEPLOYMENT_URL_HERE', {
+```
+
+**To find your deployment URL:**
+
+1. Go back to Apps Script
+2. Click **Deploy** → **Manage deployments**
+3. Click the three dots next to your deployment
+4. Select **Web app**
+5. Copy the URL
+
+---
+
+## 🚀 Step 5: Test Locally
+
+1. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Start the development server:**
+
+   ```bash
+   npm start
+   ```
+
+3. **Open your browser** to `http://localhost:3000`
+
+4. **Test your survey** - fill it out and check if data appears in your Google Sheet!
+
+---
+
+## 🌐 Step 6: Deploy to Vercel
+
+### Option A: Deploy with Vercel CLI
+
+1. **Install Vercel CLI:**
+
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Deploy:**
+
+   ```bash
+   vercel
+   ```
+
+3. **Follow the prompts:**
+   - Login to Vercel (if needed)
+   - Choose your project settings
+   - Wait for deployment
+
+### Option B: Deploy with GitHub Integration
+
+1. **Push your code to GitHub:**
+
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git push origin main
+   ```
+
+2. **Go to [Vercel](https://vercel.com)**
+3. **Click "New Project"**
+4. **Import your GitHub repository**
+5. **Deploy!**
+
+### Option C: Drag and Drop
+
+1. **Build your project:**
+
+   ```bash
+   npm run build
+   ```
+
+2. **Go to [Vercel](https://vercel.com)**
+3. **Drag the `build` folder** to the Vercel dashboard
+4. **Your site is live!**
+
+---
+
+## 🎉 You're Done!
+
+Your survey website is now live! 🎊
+
+**Your survey URL will look like:** `https://your-project-name.vercel.app`
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues:
+
+**"Module not found" errors:**
+
+```bash
+npm install
+```
+
+**Google Sheets not receiving data:**
+
+- Check your deployment URL in `googleSheets.ts`
+- Make sure your Apps Script is deployed as a web app
+- Check the Apps Script logs for errors
+
+**Vercel deployment fails:**
+
+- Make sure all files are committed to git
+- Check that `package.json` has all dependencies
+- Try deploying locally first with `npm start`
+
+### Need Help?
+
+- Check the [React documentation](https://reactjs.org/)
+- Look at [Material-UI examples](https://mui.com/material-ui/getting-started/)
+- Google Apps Script [documentation](https://developers.google.com/apps-script)
+
+---
+
+## 🎯 Next Steps
+
+Want to make it even better?
+
+- **Add more questions** to your survey sections
+- **Change the colors** in `src/App.tsx` (look for the `theme` object)
+- **Add a progress bar** or animations
+- **Create different surveys** for different audiences
+- **Add data visualization** to see your results
+
+---
+
+**Happy surveying! 📝✨**
+
+_Made with ❤️ using React, Material-UI, and Google Sheets_
