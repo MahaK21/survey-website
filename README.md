@@ -131,7 +131,6 @@ Just edit the questions in these files!
 
 In my NASA-TLX survey section I had 2 conditions for each of the 6 questions. You can make it 1 section or more if you'd like.
 
-
 ### Update Logos and Branding
 
 **File to edit:** `src/App.tsx`
@@ -171,6 +170,88 @@ In my NASA-TLX survey section I had 2 conditions for each of the 6 questions. Yo
    - **Who has access:** Anyone
 9. Click **Deploy**
 10. **Copy the deployment URL** (you'll need this next!)
+
+### Understanding and Editing the Google Apps Script Code
+
+The `Code.gs` file tells Google Sheets how to save your survey data. Here's how it works:
+
+**What the code does:**
+
+- Receives survey data from your website
+- Organizes it into a row format
+- Saves it to your Google Sheet
+
+**How to customize it for your survey:**
+
+1. **Look at the `row` array** (around line 15-50). Each item in this array becomes a column in your Google Sheet:
+
+```javascript
+const row = [
+  data.timestamp, // Column A: When the survey was submitted
+  data.demographics.initials, // Column B: User's initials
+  data.demographics.specialty, // Column C: User's specialty
+  // ... and so on
+];
+```
+
+2. **Match your survey structure:**
+   - If your survey has different sections, update the `data.` references
+   - If you have different questions, add or remove items from the array
+   - The order matters! Column A = first item, Column B = second item, etc.
+
+**Example for a simple survey:**
+
+```javascript
+const row = [
+  data.timestamp, // When submitted
+  data.demographics.name, // User's name
+  data.demographics.email, // User's email
+  data.survey.question1, // Answer to question 1
+  data.survey.question2, // Answer to question 2
+  data.survey.rating, // Rating (1-5)
+  data.feedback.comments, // Text comments
+];
+```
+
+**Important:** The `data.` references must match exactly what your survey sends. Check your survey components to see what data they're sending!
+
+### Understanding Your Google Sheet Structure
+
+After you set up the Apps Script, your Google Sheet will automatically create columns based on your code. Here's what each column will contain:
+
+**For the current survey structure:**
+
+| Column | Data                         | Example                            |
+| ------ | ---------------------------- | ---------------------------------- |
+| A      | Timestamp                    | "2024-01-15T10:30:00.000Z"         |
+| B      | Initials                     | "JD"                               |
+| C      | Specialty                    | "Radiology"                        |
+| D      | Other Specialty              | "Interventional"                   |
+| E      | Training Status              | "Resident"                         |
+| F      | Other Training Status        | ""                                 |
+| G      | Experience                   | "2-5 years"                        |
+| H      | Used 3D Slicer               | "Yes"                              |
+| I      | Slicer Familiarity           | 4                                  |
+| J-P    | SUS Questions 1-10           | "Strongly Agree", "Disagree", etc. |
+| Q-V    | NASA-TLX Without Depth Guide | 1, 3, 2, 4, 1, 5                   |
+| W-BB   | NASA-TLX With Depth Guide    | 2, 1, 3, 2, 1, 4                   |
+| BC     | Depth Guide Usefulness       | 4                                  |
+| BD     | Shortcuts Help               | "Yes"                              |
+| BE     | Shortcuts Comments           | "Very helpful shortcuts"           |
+| BF     | Icons Layout Clarity         | 3                                  |
+| BG     | Responsiveness               | 4                                  |
+| BH     | Overall Feedback             | "Great tool overall"               |
+
+**To customize for your survey:**
+
+1. **Change the column headers** in your Google Sheet to match your questions
+2. **Update the Apps Script code** to match your survey data structure
+3. **Test with a sample response** to make sure everything lines up
+
+**Pro tip:** You can add column headers in your Google Sheet to make it easier to understand the data:
+
+- Row 1: Add headers like "Timestamp", "Name", "Question 1", etc.
+- The Apps Script will add data starting from Row 2
 
 ### Connect Your Website to Google Sheets
 
@@ -314,4 +395,4 @@ Want to make it even better?
 
 **Happy surveying! 📝✨**
 
-_Made with ❤️ 
+\_Made with ❤️
