@@ -46,7 +46,7 @@ cd survey-website
 
 ## 🏗️ Step 2: Understand the Structure
 
-Here's what's in your project:
+Here's what's in the project:
 
 ```
 survey-website/
@@ -129,6 +129,9 @@ Each section is in its own file in `src/components/sections/`:
 
 Just edit the questions in these files!
 
+In my NASA-TLX survey section I had 2 conditions for each of the 6 questions. You can make it 1 section or more if you'd like.
+
+
 ### Update Logos and Branding
 
 **File to edit:** `src/App.tsx`
@@ -158,7 +161,7 @@ Just edit the questions in these files!
 
 1. In your Google Sheet, go to **Extensions** → **Apps Script**
 2. Delete any existing code
-3. Copy the entire contents of `google-apps-script/Code.gs`
+3. Copy the entire contents of `google-apps-script/Code.gs` (you will need to change this according to your survey sections and survey questions!!)
 4. Paste it into the Apps Script editor
 5. Click **Save** (the disk icon)
 6. Click **Deploy** → **New deployment**
@@ -173,7 +176,7 @@ Just edit the questions in these files!
 
 **File to edit:** `src/services/googleSheets.ts`
 
-Replace the URL in line 15:
+Replace the URL in line 15 with your deployment URL you just copied:
 
 ```typescript
 const response = await fetch('YOUR_DEPLOYMENT_URL_HERE', {
@@ -311,4 +314,4 @@ Want to make it even better?
 
 **Happy surveying! 📝✨**
 
-_Made with ❤️ using React, Material-UI, and Google Sheets_
+_Made with ❤️ 
