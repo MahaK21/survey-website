@@ -221,26 +221,10 @@ After you set up the Apps Script, your Google Sheet will automatically create co
 
 **For the current survey structure:**
 
-| Column | Data                         | Example                            |
-| ------ | ---------------------------- | ---------------------------------- |
-| A      | Timestamp                    | "2024-01-15T10:30:00.000Z"         |
-| B      | Initials                     | "JD"                               |
-| C      | Specialty                    | "Radiology"                        |
-| D      | Other Specialty              | "Interventional"                   |
-| E      | Training Status              | "Resident"                         |
-| F      | Other Training Status        | ""                                 |
-| G      | Experience                   | "2-5 years"                        |
-| H      | Used 3D Slicer               | "Yes"                              |
-| I      | Slicer Familiarity           | 4                                  |
-| J-P    | SUS Questions 1-10           | "Strongly Agree", "Disagree", etc. |
-| Q-V    | NASA-TLX Without Depth Guide | 1, 3, 2, 4, 1, 5                   |
-| W-BB   | NASA-TLX With Depth Guide    | 2, 1, 3, 2, 1, 4                   |
-| BC     | Depth Guide Usefulness       | 4                                  |
-| BD     | Shortcuts Help               | "Yes"                              |
-| BE     | Shortcuts Comments           | "Very helpful shortcuts"           |
-| BF     | Icons Layout Clarity         | 3                                  |
-| BG     | Responsiveness               | 4                                  |
-| BH     | Overall Feedback             | "Great tool overall"               |
+| Column ID              | A                          | B        | C           | D                | E               | F                     | G           | H              | I                  | J                | K          | L       | M         | N                | O          | P       | Q                   | R       | S         | T               | U               | V               | W               | X               | Y               | Z              | AA             | AB             | AC             | AD             | AE             | AF                     | AG             | AH                       |
+| ---------------------- | -------------------------- | -------- | ----------- | ---------------- | --------------- | --------------------- | ----------- | -------------- | ------------------ | ---------------- | ---------- | ------- | --------- | ---------------- | ---------- | ------- | ------------------- | ------- | --------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | ---------------------- | -------------- | ------------------------ | -------------------- | -------------- | -------------------- |
+| Example Header         | Timestamp                  | Initials | Specialty   | Other Specialty  | Training Status | Other Training Status | Experience  | Used 3D Slicer | Slicer Familiarity | SUS Q1           | SUS Q2     | SUS Q3  | SUS Q4    | SUS Q5           | SUS Q6     | SUS Q7  | SUS Q8              | SUS Q9  | SUS Q10   | NASA-TLX WDG Q1 | NASA-TLX WDG Q2 | NASA-TLX WDG Q3 | NASA-TLX WDG Q4 | NASA-TLX WDG Q5 | NASA-TLX WDG Q6 | NASA-TLX DG Q1 | NASA-TLX DG Q2 | NASA-TLX DG Q3 | NASA-TLX DG Q4 | NASA-TLX DG Q5 | NASA-TLX DG Q6 | Depth Guide Usefulness | Shortcuts Help | Shortcuts Comments       | Icons Layout Clarity | Responsiveness | Overall Feedback     |
+| Example Data from User | "2024-01-15T10:30:00.000Z" | "JD"     | "Radiology" | "Interventional" | "Resident"      | ""                    | "2-5 years" | "Yes"          | 4                  | "Strongly Agree" | "Disagree" | "Agree" | "Neutral" | "Strongly Agree" | "Disagree" | "Agree" | "Strongly Disagree" | "Agree" | "Neutral" | 1               | 3               | 2               | 4               | 1               | 5               | 2              | 1              | 3              | 2              | 1              | 4              | 4                      | "Yes"          | "Very helpful shortcuts" | 3                    | 4              | "Great tool overall" |
 
 **To customize for your survey:**
 
